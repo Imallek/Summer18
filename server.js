@@ -4,6 +4,18 @@ const fs = require('fs'); //for file manipulations
 
 var app = express();
 
+
+// Two changes that we make to prepare the application for Heroku is
+// 1- Set the port global/environment variable
+// 2- Set the script "start: node server.js" in the package file
+//  This "start" command is what heroku is going to run, Because it doesn't know the name of the file
+// Thus it cannot just do "node server.js" so it simply going to run "start" for that
+// So we got to define "start" script for heroku in the package.json
+
+//Setting the environmnet variable for Heroku, If the environment variable is not set just set the port to 3000
+const port = process.env.PORT || 3000;
+
+
 //Register the partial folder
 hbs.registerPartials(__dirname + '/views/partials');
 
@@ -118,6 +130,6 @@ app.get('/bad',(request, response)=>{
 });
 
 // .listen takes 2 arguments and the second argument is optional
-app.listen(3000, ()=>{
+app.listen(port, ()=>{
     console.log(`Server Up bro !`);
 });
